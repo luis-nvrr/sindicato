@@ -6,6 +6,7 @@ type RunLengthEncodedString = [string, number][];
 // see https://en.wikipedia.org/wiki/Run-length_encoding
 //
 // O(2n)
+/*
 export function rle(plain: String): RunLengthEncodedString {
   let charactersCount:Map<string, number> = countCharacters(plain) 
 
@@ -23,4 +24,30 @@ function countCharacters(plain: String): Map<string, number> {
   });
 
   return count
+}
+*/
+
+// O(n)
+export function rle(plain: String): RunLengthEncodedString {
+  let charCountArr:RunLengthEncodedString = []
+  let charCount:[string, number]
+
+  for (let char of plain) {
+    if (isEmpty(charCountArr) || !isSameAsLastCharacter(char, charCountArr)) {
+      charCount = [char, 1]
+      charCountArr.push(charCount)
+      continue
+    }
+    charCount[1] += 1
+  }
+
+  return charCountArr
+}
+
+function isEmpty(arr: RunLengthEncodedString): boolean {
+  return arr.length === 0
+}
+
+function isSameAsLastCharacter(char: string, arr: RunLengthEncodedString): boolean {
+  return char === arr[arr.length-1][0]
 }
